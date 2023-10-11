@@ -1,0 +1,23 @@
+{
+  "name": "edificar.com.br",
+  "version": "1.0.0",
+  "description": "- A API deve poder cadastrar um usuário Admin - A API deve poder atualizar um usuário Admin existente - A API deve poder excluir um usuário Admin existente",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon ./src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.0.1",
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
