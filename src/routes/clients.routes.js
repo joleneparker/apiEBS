@@ -7,7 +7,7 @@ const ClientsController = new clientsController
 
 app.post("/create", ensureAuthenticated, ClientsController.create)
 app.put("/update", ensureAuthenticated, ClientsController.update)
-app.delete("/delete", ensureAuthenticated, ClientsController.delete)
+app.delete("/:client/delete", ensureAuthenticated, ClientsController.delete)
 app.get("/:client", ensureAuthenticated, ClientsController.show) // query params (client)
 app.get("/", ensureAuthenticated, ClientsController.list)
 

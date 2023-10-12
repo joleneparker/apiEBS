@@ -1,6 +1,6 @@
 class clientsCreateService {
-    constructor(repository) {
-        this.repository = repository
+    constructor(clientRepository) {
+        this.clientRepository = clientRepository
     }
 
     async execute(
@@ -10,14 +10,23 @@ class clientsCreateService {
         business_doc,
         phone
     ) {
-        // verificar se exiiste um cliente com mesmo businessodc na base
-        const client = await this.repository.findClientByBusinessDoc(user_id, business_doc)
+        const checkClientExists = await this.clientRepository.findClientByBusinessDoc(user_id, business_doc)
 
-        if(typeof client === "object") {
-            return "client não existe"
+        if (checkClientExists) {
+            return "Você já tem um cliente com este documento"
         }
 
-        return client
+        const createNewClient = await this.clientRepository.create(
+            user_id,
+            name,
+            business_name,
+            business_doc,
+            phone
+        )
+
+        const checkClientExists2 = await this.clientRepository.findClientByBusinessDoc(user_id, business_doc)
+
+        return checkClientExists2
     }
 }
 

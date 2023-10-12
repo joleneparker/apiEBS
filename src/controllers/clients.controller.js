@@ -1,5 +1,7 @@
 const clientsRepository = require("../repositories/clients.repository")
 const clientsCreateService = require("../services/clientsCreate.service")
+const clientsUpdateService = require("../services/clientsUpdate.service")
+const clientsDeleteService = require("../services/clientsDelete.service")
 
 class clientsController {
     async create(request, response) {
@@ -11,10 +13,10 @@ class clientsController {
             phone
         } = request.body
 
-        const ClientsRepository = new clientsRepository
+        const ClientsRepository = new clientsRepository()
         const ClientsCreateService = new clientsCreateService(ClientsRepository)
 
-        const teste = ClientsCreateService.execute(
+        const newClient = await ClientsCreateService.execute(
             user_id,
             name,
             business_name,
@@ -22,22 +24,49 @@ class clientsController {
             phone
         )
 
-        return response.json(teste)
+        return response.json(newClient)
     }
 
-    update(request, response) {
-        return response.json("update")
+    async update(request, response) {
+        const user_id = request.user.id
+        const {
+            name,
+            business_name,
+            business_doc,
+            phone
+        } = request.body
+
+        const ClientsRepository = new clientsRepository()
+        const ClientsUpdateService = new clientsUpdateService(ClientsRepository)
+
+        const clientUpdated = await ClientsUpdateService.execute(
+            user_id,
+            name,
+            business_name,
+            business_doc,
+            phone
+        )
+
+        return response.json(clientUpdated)
     }
 
-    delete(request, response) {
-        return response.json("delete")
+    async delete(request, response) {
+        const user_id = request.user.id
+        const client_id = request.params
+
+        const ClientsRepository = new clientsRepository()
+        const ClientsDeleteService = new clientsDeleteService(ClientsRepository)
+
+        const findClient = ClientsDeleteService.execute(user_id, client_id)
+
+        return findClient
     }
 
-    show(request, response) {
+    async show(request, response) {
         return response.json("show")
     }
 
-    list(request, response) {
+    async list(request, response) {
         return response.json("list")
     }
 }
